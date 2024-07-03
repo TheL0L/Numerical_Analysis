@@ -240,6 +240,36 @@ def inverse(matrix: np.ndarray) -> np.ndarray:
     return inv
 
 
+def max_norm(matrix: np.ndarray) -> float:
+    """
+    Calculates the max norm (infinity norm) of a given matrix.
+    
+    Parameters:
+    matrix (np.ndarray): The input matrix.
+    
+    Returns:
+    float: The max norm of the matrix.
+    """
+    # Calculate the sum of absolute values of each row
+    row_sums = np.sum(np.abs(matrix), axis=1)
+    
+    # Find and return the maximum row sum
+    return np.max(row_sums)
+
+
+def condition(matrix: np.ndarray) -> float:
+    """
+    Calculates the condition value of a given matrix using the max norm (infinity norm).
+    
+    Parameters:
+    matrix (np.ndarray): The input matrix.
+    
+    Returns:
+    float: The condition value of the matrix.
+    """
+    return max_norm(matrix) * max_norm(inverse(matrix))
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
