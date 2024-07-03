@@ -174,6 +174,72 @@ def elementary_matrix_for_scalar_multiplication(dim: int, row: int, scalar: floa
     return np.array(elementary_matrix)
 
 
+def get_inverse_elementary_matrices(matrix: np.ndarray) -> list[np.ndarray]:
+    """
+    Compute the sequence of elementary matrices used to invert a given matrix.
+
+    Parameters:
+    matrix (np.ndarray): The square matrix to be inverted.
+
+    Returns:
+    list[np.ndarray]: A list of elementary matrices used to invert the input matrix.
+
+    Raises:
+    ValueError: If the matrix is singular or not square.
+    """
+    dim = get_dim_of_square_matrix(matrix)
+    elementary_matrices = []
+
+    # Iterate over each row
+    for i in range(dim):
+        if matrix[i, i] == 0:
+            raise ValueError("Matrix is singular, cannot find its inverse.")
+
+        # Scale the current row to normalize the diagonal
+        if matrix[i, i] != 1:
+            scalar = 1.0 / matrix[i, i]
+            elementary_matrix = elementary_matrix_for_scalar_multiplication(dim, i, scalar)
+            matrix = np.dot(elementary_matrix, matrix)
+            elementary_matrices.append(elementary_matrix)
+
+        # Zero out the elements above and below the diagonal
+        rows_above_below = list(range(dim))
+        rows_above_below.remove(i)
+        for j in rows_above_below:
+            scalar = -matrix[j, i]
+            elementary_matrix = elementary_matrix_for_row_addition(dim, j, i, scalar)
+            matrix = np.dot(elementary_matrix, matrix)
+            elementary_matrices.append(elementary_matrix)
+
+    return elementary_matrices
+
+
+def inverse(matrix: np.ndarray) -> np.ndarray:
+    """
+    Compute the inverse of a square matrix using elementary row operations.
+
+    Parameters:
+    matrix (np.ndarray): The square matrix to be inverted.
+
+    Returns:
+    np.ndarray: The inverse of the input matrix.
+
+    Raises:
+    ValueError: If the matrix is not square.
+    """
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+
+    inv = np.identity(get_dim_of_square_matrix(matrix))
+
+    # TODO: use pivoting?
+    elementary_matrices = get_inverse_elementary_matrices(matrix)
+    for elementary in elementary_matrices:
+        inv = np.dot(elementary, inv)
+
+    return inv
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
