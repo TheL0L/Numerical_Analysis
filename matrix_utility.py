@@ -58,6 +58,39 @@ def get_dim_of_square_matrix(matrix: np.ndarray) -> int:
     return matrix.shape[0]
 
 
+def determinant(matrix: np.ndarray) -> float:
+    """
+    Calculates the determinant of a given square matrix.
+    
+    Parameters:
+    matrix (np.ndarray): The input square matrix.
+    
+    Returns:
+    float: The determinant of the matrix.
+    
+    Raises:
+    ValueError: If the matrix is not square.
+    """
+    if not is_square(matrix):
+        raise ValueError("Input matrix must be square.")
+
+    # Base case for 1x1 matrix
+    if matrix.shape == (1, 1):
+        return matrix[0, 0]
+
+    # Base case for 2x2 matrix
+    if matrix.shape == (2, 2):
+        return matrix[0, 0] * matrix[1, 1] - matrix[0, 1] * matrix[1, 0]
+
+    # Recursive case for larger matrices
+    det = 0
+    for col in range(matrix.shape[1]):
+        sub_matrix = np.delete(np.delete(matrix, 0, axis=0), col, axis=1)
+        cofactor = ((-1) ** col) * matrix[0, col] * determinant(sub_matrix)
+        det += cofactor
+
+    return det
+
 
 if __name__ == '__main__':
     mat = np.array([
