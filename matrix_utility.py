@@ -300,4 +300,14 @@ if __name__ == '__main__':
         [-1, 3, 5],
     ])
 
+    print('Mat:')
+    print_matrix(mat)
+
+    print(f'\nDeterminant: {determinant(mat)}')
+
+    print('\nInverse:')
+    print_matrix(inverse(mat))
+
+    print(f'\nMax-Norm: {max_norm(mat)}')
+    print(f'Cond: {condition(mat)}')
     
