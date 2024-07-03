@@ -300,14 +300,17 @@ if __name__ == '__main__':
         [-1, 3, 5],
     ])
 
-    print('Mat:')
+    inv = inverse(mat)
+
+    print('Original matrix:')
     print_matrix(mat)
 
     print(f'\nDeterminant: {determinant(mat)}')
 
     print('\nInverse:')
-    print_matrix(inverse(mat))
+    print_matrix(inv)
 
-    print(f'\nMax-Norm: {max_norm(mat)}')
-    print(f'Cond: {condition(mat)}')
+    print(f'\nMax-Norm of original matrix: {max_norm(mat)}')
+    print(f'Max-Norm of inverse matrix:  {max_norm(inv)}')
+    print(f'Condition value:             {condition(mat)}')
     
