@@ -32,6 +32,32 @@ def random_matrix(N: int, M: int, low: int = 0, high: int = 10) -> np.ndarray:
     return np.random.randint(low, high + 1, size=(N, M))
 
 
+def is_square(matrix: np.ndarray) -> bool:
+    """
+    Check if a matrix is square.
+
+    Parameters:
+    matrix (np.ndarray): The matrix to check.
+
+    Returns:
+    bool: True if the matrix is square, False otherwise.
+    """
+    return matrix.shape[0] == matrix.shape[1]
+
+
+def get_dim_of_square_matrix(matrix: np.ndarray) -> int:
+    """
+    Get the dimension of a square matrix.
+
+    Parameters:
+    matrix (np.ndarray): The matrix whose dimension is to be retrieved.
+
+    Returns:
+    int: The dimension of the square matrix.
+    """
+    return matrix.shape[0]
+
+
 
 if __name__ == '__main__':
     mat = np.array([
