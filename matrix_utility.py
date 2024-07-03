@@ -270,6 +270,29 @@ def condition(matrix: np.ndarray) -> float:
     return max_norm(matrix) * max_norm(inverse(matrix))
 
 
+def is_diagonally_dominant(matrix: np.ndarray) -> bool:
+    """
+    Checks if the given matrix is diagonally dominant.
+    
+    Parameters:
+    matrix (np.ndarray): The input matrix.
+    
+    Returns:
+    bool: True if the matrix is diagonally dominant, False otherwise.
+    """
+    if matrix is None:
+        return False
+
+    # Calculate the absolute values of the diagonal elements
+    diagonal_elements = np.diag(np.abs(matrix))
+    
+    # Calculate the row sums without the diagonal elements
+    row_sums = np.sum(np.abs(matrix), axis=1) - diagonal_elements
+    
+    # Check if each diagonal element is greater than the corresponding row sum
+    return np.all(diagonal_elements > row_sums)
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
