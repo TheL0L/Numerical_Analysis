@@ -92,6 +92,88 @@ def determinant(matrix: np.ndarray) -> float:
     return det
 
 
+def elementary_matrix_for_row_addition(dim: int, target_row: int, addend_row: int, scalar: float = 1.0) -> np.ndarray:
+    """
+    Create an elementary matrix that adds a multiple of one row to another.
+
+    Parameters:
+    dim (int): Dimension of the square matrix.
+    target_row (int): Index of the row to be modified.
+    addend_row (int): Index of the row to be added.
+    scalar (float, optional): Scalar multiple of the addend row. Defaults to 1.0.
+
+    Returns:
+    np.ndarray: The elementary matrix for the row addition operation.
+
+    Raises:
+    ValueError: If row indices are invalid or if target_row and addend_row are the same.
+    """
+    if target_row < 0 or addend_row < 0 or target_row >= dim or addend_row >= dim:
+        raise ValueError("Invalid row indices.")
+
+    if target_row == addend_row:
+        raise ValueError("Source and target rows cannot be the same.")
+
+    elementary_matrix = np.identity(dim)
+    elementary_matrix[target_row, addend_row] = scalar
+
+    return np.array(elementary_matrix)
+
+
+def elementary_matrix_for_row_swap(dim: int, row_a: int, row_b: int) -> np.ndarray:
+    """
+    Create an elementary matrix that swaps two rows.
+
+    Parameters:
+    dim (int): Dimension of the square matrix.
+    row_a (int): Index of the row to be swapped.
+    row_b (int): Index of the row to be swapped.
+
+    Returns:
+    np.ndarray: The elementary matrix for the row swapping operation.
+
+    Raises:
+    ValueError: If row indices are invalid or if row_a and row_b are the same.
+    """
+    if row_a < 0 or row_b < 0 or row_a >= dim or row_b >= dim:
+        raise ValueError("Invalid row indices.")
+
+    if row_a == row_b:
+        raise ValueError("Swapped rows cannot be the same.")
+
+    elementary_matrix = np.identity(dim)
+    elementary_matrix[[row_a, row_b]] = elementary_matrix[[row_b, row_a]]
+
+    return np.array(elementary_matrix)
+
+
+def elementary_matrix_for_scalar_multiplication(dim: int, row: int, scalar: float) -> np.ndarray:
+    """
+    Create an elementary matrix that multiplies a row by a scalar.
+
+    Parameters:
+    dim (int): Dimension of the square matrix.
+    row (int): Index of the row to be scaled.
+    scalar (float): Scalar to multiply the row by.
+
+    Returns:
+    np.ndarray: The elementary matrix for the scalar multiplication operation.
+
+    Raises:
+    ValueError: If row index is invalid or if scalar is zero.
+    """
+    if row < 0 or row >= dim:
+        raise ValueError("Invalid row index.")
+
+    if scalar == 0:
+        raise ValueError("Scalar cannot be zero for row multiplication.")
+
+    elementary_matrix = np.identity(dim)
+    elementary_matrix[row, row] = scalar
+
+    return np.array(elementary_matrix)
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
