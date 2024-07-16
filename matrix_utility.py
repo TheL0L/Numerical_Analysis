@@ -1,19 +1,22 @@
 import numpy as np
 
 
-def print_matrix(matrix: np.ndarray) -> None:
+def print_matrix(matrix: np.ndarray, width: int = None) -> None:
     """
     Prints the given matrix with elements aligned for better readability.
     
     Parameters:
     matrix (np.ndarray): The matrix to be printed.
+    width (int, optional): The reserved width for values (excludes the sign).
     
     Returns:
     None
     """
     max_width = max(len(str(element)) for row in matrix for element in row)
+    width = max_width if width is None else width
+    width = max(1, width)
     for row in matrix:
-        print("  ".join(f"{str(element):>{max_width}}" for element in row))
+        print("  ".join(f"{('-' if np.sign(element) == -1 else ' ') + str(np.abs(element))[:width]:>{width}}" for element in row))
 
 
 def random_matrix(N: int, M: int, low: int = 0, high: int = 10) -> np.ndarray:
