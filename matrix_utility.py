@@ -295,6 +295,29 @@ def is_diagonally_dominant(matrix: np.ndarray) -> bool:
     return np.all(diagonal_elements > row_sums)
 
 
+def lu_decomposion(matrix):
+    # https://www.youtube.com/watch?v=BFYFkn-eOQk
+    dim = get_dim_of_square_matrix(matrix)
+    lower_matrix = np.identity(dim)
+    upper_matrix = matrix.copy()
+
+    # iterate over all rows
+    for pivot_index in range(dim):
+        # check whether the given matrix is singular
+        if upper_matrix[pivot_index][pivot_index] == 0:
+            raise ValueError("can't perform LU Decomposition")
+
+        # reduce rows under the current row
+        for i in range(pivot_index + 1, dim):
+            ratio = -( upper_matrix[i][pivot_index] / upper_matrix[pivot_index][pivot_index] )
+            elementary_matrix = elementary_matrix_for_row_addition(dim, i, pivot_index, ratio)
+            elementary_inverse = np.linalg.inv(elementary_matrix)
+            lower_matrix = np.dot(lower_matrix, elementary_inverse)
+            upper_matrix = np.dot(elementary_matrix, upper_matrix)
+
+    return lower_matrix, upper_matrix
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
