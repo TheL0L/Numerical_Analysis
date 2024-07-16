@@ -318,6 +318,23 @@ def lu_decomposion(matrix):
     return lower_matrix, upper_matrix
 
 
+def fix_dominant_diagonal(matrix: np.ndarray) -> np.ndarray:
+    n = matrix.shape[0]
+    reordered_matrix = matrix.copy()
+    
+    for i in range(n):
+        # find the row with the largest absolute value in the current column
+        pivot_row = np.argmax(np.abs(reordered_matrix[i:, i])) + i
+        
+        if pivot_row != i:
+            # create the row swap matrix
+            elementary_matrix = elementary_matrix_for_row_swap(n, i, pivot_row)
+            # apply the row swap to the matrix
+            reordered_matrix = np.dot(elementary_matrix, reordered_matrix)
+    
+    return reordered_matrix
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
