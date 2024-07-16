@@ -190,25 +190,27 @@ def get_inverse_elementary_matrices(matrix: np.ndarray) -> list[np.ndarray]:
     dim = get_dim_of_square_matrix(matrix)
     elementary_matrices = []
 
+    mat = matrix.copy()
+
     # Iterate over each row
     for i in range(dim):
-        if matrix[i, i] == 0:
+        if mat[i, i] == 0:
             raise ValueError("Matrix is singular, cannot find its inverse.")
 
         # Scale the current row to normalize the diagonal
-        if matrix[i, i] != 1:
-            scalar = 1.0 / matrix[i, i]
+        if mat[i, i] != 1:
+            scalar = 1.0 / mat[i, i]
             elementary_matrix = elementary_matrix_for_scalar_multiplication(dim, i, scalar)
-            matrix = np.dot(elementary_matrix, matrix)
+            mat = np.dot(elementary_matrix, mat)
             elementary_matrices.append(elementary_matrix)
 
         # Zero out the elements above and below the diagonal
         rows_above_below = list(range(dim))
         rows_above_below.remove(i)
         for j in rows_above_below:
-            scalar = -matrix[j, i]
+            scalar = -mat[j, i]
             elementary_matrix = elementary_matrix_for_row_addition(dim, j, i, scalar)
-            matrix = np.dot(elementary_matrix, matrix)
+            mat = np.dot(elementary_matrix, mat)
             elementary_matrices.append(elementary_matrix)
 
     return elementary_matrices
