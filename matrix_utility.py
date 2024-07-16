@@ -347,11 +347,11 @@ if __name__ == '__main__':
 
     l, u = lu_decomposion(mat)
 
-    print_matrix(mat)
+    print_matrix(mat, 5)
     
     print('\nlower:')
-    print_matrix(l)
+    print_matrix(l, 5)
 
     print('\nupper:')
-    print_matrix(u)
+    print_matrix(u, 5)
 
