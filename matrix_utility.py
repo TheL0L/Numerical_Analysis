@@ -399,19 +399,25 @@ def solve_linear_system(A: np.ndarray, b: np.ndarray) -> np.ndarray:
 
 
 if __name__ == '__main__':
-    mat = np.array([
-        [1, -1, -2],
-        [2, -3, -5],
-        [-1, 3, 5],
+    A = np.array([
+        [1,  4, -3],
+        [-2, 1,  5],
+        [3,  2,  1],
     ])
 
-    l, u = lu_decomposion(mat)
+    print('\nA:')
+    print_matrix(A, 5)
 
-    print_matrix(mat, 5)
+    l, u = lu_decomposion(A)
     
     print('\nlower:')
     print_matrix(l, 5)
 
     print('\nupper:')
     print_matrix(u, 5)
+
+
+    b = np.array([ 5, 5, 5 ])
+    print(f'\n\nb = {b.tolist()}')
+    print(f'solution = {solve_linear_system(A, b).tolist()}')
 
