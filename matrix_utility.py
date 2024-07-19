@@ -298,7 +298,19 @@ def is_diagonally_dominant(matrix: np.ndarray) -> bool:
     return np.all(diagonal_elements > row_sums)
 
 
-def lu_decomposion(matrix):
+def lu_decomposion(matrix: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Performs LU decomposition on a given square matrix.
+
+    Parameters:
+    matrix (np.ndarray): The matrix to decompose.
+
+    Returns:
+    tuple[np.ndarray, np.ndarray]: A tuple containing the lower triangular matrix (L) and the upper triangular matrix (U).
+
+    Raises:
+    ValueError: If the matrix is singular and LU decomposition cannot be performed.
+    """
     # https://www.youtube.com/watch?v=BFYFkn-eOQk
     dim = get_dim_of_square_matrix(matrix)
     lower_matrix = np.identity(dim)
@@ -322,6 +334,16 @@ def lu_decomposion(matrix):
 
 
 def fix_dominant_diagonal(matrix: np.ndarray) -> np.ndarray:
+    """
+    Rearranges the matrix to ensure a dominant diagonal, where each diagonal element is greater than or 
+    equal to the sum of the absolute values of the other elements in the row.
+
+    Parameters:
+    matrix (np.ndarray): The matrix to rearrange.
+
+    Returns:
+    np.ndarray: The reordered matrix with a dominant diagonal.
+    """
     n = matrix.shape[0]
     reordered_matrix = matrix.copy()
     
