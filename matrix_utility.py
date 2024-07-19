@@ -338,6 +338,66 @@ def fix_dominant_diagonal(matrix: np.ndarray) -> np.ndarray:
     return reordered_matrix
 
 
+def backward_substitution(augmented_matrix: np.ndarray) -> np.ndarray:
+    """
+    Solves an upper triangular system of linear equations using backward substitution.
+
+    Parameters:
+    augmented_matrix (np.ndarray): The augmented matrix representing the upper triangular system.
+
+    Returns:
+    np.ndarray: The solution vector.
+    """
+    rows = augmented_matrix.shape[0]
+    solution_vector = np.zeros(rows)
+
+    # iterate over each row (equation) in reverse order
+    for i in range(rows - 1, -1, -1):
+        # start with the last element of the current row
+        solution_vector[i] = augmented_matrix[i][rows]
+
+        # adjust the solution vector with accordance to solved variables
+        for j in range(i + 1, rows):
+            solution_vector[i] -= augmented_matrix[i][j] * solution_vector[j]
+
+        # divide by the coefficient of the variable to solve for it
+        solution_vector[i] = solution_vector[i] / augmented_matrix[i][i]
+
+    return solution_vector
+
+
+def solve_linear_system(A: np.ndarray, b: np.ndarray) -> np.ndarray:
+    """
+    Solves a system of linear equations Ax = b using LU decomposition.
+
+    Parameters:
+    A (np.ndarray): The coefficient matrix.
+    b (np.ndarray): The right-hand side vector.
+
+    Returns:
+    np.ndarray: The solution vector x.
+    
+    Raises:
+    Exception: If matrix A is not square or if dimensions of A and b do not match.
+    """
+    # Check if the matrix A is square
+    if not is_square(A):
+        raise Exception('Matrix A must be square.')
+    
+    # Check if the dimensions of A and b match
+    if get_dim_of_square_matrix(A) != b.shape[0]:
+        raise Exception('Dimensions of matrix A and vector b must match.')
+    
+    # create the augmented matrix via concatenating A & b
+    augmented_matrix = np.c_[A, b]
+
+    # perform LU decomposition to get the row-echelon form of the augmented matrix
+    lower, upper = lu_decomposion(augmented_matrix)
+
+    # perform backward substitution and return the solution vector
+    return backward_substitution(upper)
+
+
 if __name__ == '__main__':
     mat = np.array([
         [1, -1, -2],
