@@ -26,7 +26,7 @@ def jacobi_iterative(A: np.ndarray, b: np.ndarray, x_0: np.ndarray, tolerance: f
         print('Matrix is not diagonally dominant')
         print_matrix(A, 5)
         print()
-        return np.zeros(dim, dtype=np.double)
+        return x_0
 
     # Print header for iterations
     print("Iteration" + "\t\t\t".join([" {:>12}".format(var) for var in ["x{}".format(i) for i in range(1, len(A) + 1)]]))
@@ -85,7 +85,7 @@ def gauss_seidel(A: np.ndarray, b: np.ndarray, x_0: np.ndarray, tolerance: float
         print('Matrix is not diagonally dominant')
         print_matrix(A, 5)
         print()
-        return np.zeros(dim, dtype=np.double)
+        return x_0
 
     # Print header for iterations
     print("Iteration" + "\t\t\t".join([" {:>12}".format(var) for var in ["x{}".format(i) for i in range(1, len(A) + 1)]]))
